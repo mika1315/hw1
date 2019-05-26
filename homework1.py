@@ -2,7 +2,8 @@ import itertools
 
 def list_from_dictionary(filename):
         # 辞書ファイルをリストにする
-        dic_list = [line.strip().replace("qu", "q") for line in open(filename)]
+        # 辞書の単語に qu が現れたら q に置換する
+        dic_list = [line.strip().lower().replace("qu", "q") for line in open(filename)]
         return dic_list
 
 def calc_point(word):
@@ -24,33 +25,43 @@ if __name__ == "__main__":
         ## [1] 与えられた文字が全て入っているプログラム
         ## 与えられた文字列をソートしたものを、ソートした全ての辞書の単語と比べる
 
-        # 入力された文字列を受け取る
-        str1 = input(">> ")
+        while True:
+                print("Please enter '0' if you want to quit")
+                print("Please enter 'Q' or 'q' for 'Qu'")
 
-        # 入力された文字列をソートする
-        sorted_str1 = sorted(str1.lower())
 
-        dic_list = list_from_dictionary("dictionary.words")
-        for word in dic_list:
-                if sorted_str1 == sorted(word):
-                        print("word = ", word)
+                # 入力された文字列を受け取る
+                str1 = input(">> ")
 
-        ## [2] 与えられた文字の一部しか入っていない単語も見つけられるプログラム
+                if str1 == "0":
+                        break
 
-        list_of_sets_of_substrings = [set() for i in range(len(str1))]  # 文字数分の入れ物を作る
-        for i in range(len(sorted_str1)):
-                sub_list = [''.join(l) for l in itertools.combinations(sorted_str1, i+1)] # 文字数ごとにsubstringsのlistを作る
-                sub_set = set(sub_list) # setに代入して重複をとりのぞく
-                list_of_sets_of_substrings[i] = sub_set  # i 番目の配列要素を書き換える
+                # 入力された文字列をソートする
+                sorted_str1 = sorted(str1.lower())
 
-        max_point = 0
-        max_word = ""
-        for word in dic_list:
-                if len(word) <= len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
-                        if ''.join(sorted(word.lower())) in list_of_sets_of_substrings[len(word) - 1]: # 同じ文字数で比較する
-                                point = calc_point(word.lower())
-                                print(word, " = ", point)
-                                if max_point < point:
-                                        max_point = point
-                                        max_word = word
-        print("best word = ", max_word, "best point = ", max_point)
+                dic_list = list_from_dictionary("dictionary.words")
+                for word in dic_list:
+                        if sorted_str1 == sorted(word):
+                                print("word = ", word)
+
+                ## [2] 与えられた文字の一部しか入っていない単語も見つけられるプログラム
+
+                list_of_sets_of_substrings = [set() for i in range(len(str1))]  # 文字数分の入れ物を作る
+                for i in range(len(sorted_str1)):
+                        sub_list = [''.join(l) for l in itertools.combinations(sorted_str1, i+1)] # 文字数ごとにsubstringsのlistを作る
+                        sub_set = set(sub_list) # setに代入して重複をとりのぞく
+                        list_of_sets_of_substrings[i] = sub_set  # i 番目の配列要素を書き換える
+
+                max_point = 0
+                max_word = ""
+                for word in dic_list:
+                        if len(word) <= len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
+                                if ''.join(sorted(word.lower())) in list_of_sets_of_substrings[len(word) - 1]: # 同じ文字数で比較する
+                                        point = calc_point(word.lower())
+                                        print(word, " = ", point)
+                                        if max_point < point:
+                                                max_point = point
+                                                max_word = word
+                print("best word = ", max_word, "best point = ", max_point)
+
+        print("bye")
