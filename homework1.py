@@ -2,6 +2,7 @@ import itertools
 
 def list_from_dictionary(filename):
         # 辞書ファイルをリストにする
+        # 辞書の単語を小文字にする
         # 辞書の単語に qu が現れたら q に置換する
         dic_list = [line.strip().lower().replace("qu", "q") for line in open(filename)]
         return dic_list
@@ -37,6 +38,7 @@ if __name__ == "__main__":
                         break
 
                 # 入力された文字列をソートする
+                # 入力された文字列を小文字にする
                 sorted_str1 = sorted(str1.lower())
 
                 dic_list = list_from_dictionary("dictionary.words")
@@ -56,8 +58,9 @@ if __name__ == "__main__":
                 max_word = ""
                 for word in dic_list:
                         if len(word) <= len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
-                                if ''.join(sorted(word.lower())) in list_of_sets_of_substrings[len(word) - 1]: # 同じ文字数で比較する
-                                        point = calc_point(word.lower())
+                                # 同じ文字数で比較する
+                                if ''.join(sorted(word)) in list_of_sets_of_substrings[len(word) - 1]:
+                                        point = calc_point(word)
                                         print(word, " = ", point)
                                         if max_point < point:
                                                 max_point = point
