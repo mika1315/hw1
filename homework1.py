@@ -2,7 +2,7 @@ import itertools
 
 def list_from_dictionary(filename):
         # 辞書ファイルをリストにする
-        dic_list = [line.strip() for line in open(filename)]
+        dic_list = [line.strip().replace("qu", "q") for line in open(filename)]
         return dic_list
 
 def calc_point(word):
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         max_word = ""
         for word in dic_list:
                 if len(word) <= len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
-                        if ''.join(sorted(word.lower())) in list_of_sets_of_substrings[len(word) - 1]:
+                        if ''.join(sorted(word.lower())) in list_of_sets_of_substrings[len(word) - 1]: # 同じ文字数で比較する
                                 point = calc_point(word.lower())
                                 print(word, " = ", point)
                                 if max_point < point:
