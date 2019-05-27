@@ -26,6 +26,8 @@ if __name__ == "__main__":
         ## [1] 与えられた文字が全て入っているプログラム
         ## 与えられた文字列をソートしたものを、ソートした全ての辞書の単語と比べる
 
+        dic_list = list_from_dictionary("dictionary.words")
+        
         while True:
                 print("Please enter '0' if you want to quit")
                 print("Please enter 'Q' or 'q' for 'Qu'")
@@ -41,7 +43,6 @@ if __name__ == "__main__":
                 # 入力された文字列を小文字にする
                 sorted_str1 = sorted(str1.lower())
 
-                dic_list = list_from_dictionary("dictionary.words")
                 for word in dic_list:
                         if sorted_str1 == sorted(word):
                                 print("word = ", word)
