@@ -58,14 +58,16 @@ if __name__ == "__main__":
                 max_point = 0
                 max_word = ""
                 for word in dic_list:
-                        if len(word) <= len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
-                                # 同じ文字数で比較する
-                                if ''.join(sorted(word)) in list_of_sets_of_substrings[len(word) - 1]:
-                                        point = calc_point(word)
-                                        print(word, " = ", point)
-                                        if max_point < point:
-                                                max_point = point
-                                                max_word = word
+                        if len(word) > len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
+                                continue
+                        if not ''.join(sorted(word)) in list_of_sets_of_substrings[len(word) - 1]: # 同じ文字数で比較する
+                                continue
+                                        
+                        point = calc_point(word)
+                        print(word, " = ", point)
+                        if max_point < point:
+                                max_point = point
+                                max_word = word
                 print("best word = ", max_word, "best point = ", max_point)
 
         print("bye")
