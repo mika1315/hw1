@@ -4,8 +4,17 @@ def list_from_dictionary(filename):
         # 辞書ファイルをリストにする
         # 辞書の単語を小文字にする
         # 辞書の単語に qu が現れたら q に置換する
-        dic_list = [line.strip().lower().replace("qu", "q") for line in open(filename)]
-        return dic_list
+        # dic_list = [line.strip().lower().replace("qu", "q") for line in open(filename)]
+        # return dic_list
+
+        dic_list = list()
+        for line in open(filename, "r"):
+                word = line.strip().lower().replace('qu', 'q')
+                point = calc_point(word)
+                length = len(word)
+                dic_list.append((word, point, length))
+        
+        return sorted(dic_list, key = lambda x: (-x[1], -x[2]))
 
 def calc_point(word):
         # 単語の点数を計算して点数を返す
@@ -21,6 +30,7 @@ def calc_point(word):
         
         point = (point + 1) ** 2
         return point
+
 
 if __name__ == "__main__":
         ## [1] 与えられた文字が全て入っているプログラム
@@ -43,9 +53,9 @@ if __name__ == "__main__":
                 # 入力された文字列を小文字にする
                 sorted_str1 = sorted(str1.lower())
 
-                for word in dic_list:
-                        if sorted_str1 == sorted(word):
-                                print("word = ", word)
+                #for word in dic_list:
+                        #if sorted_str1 == sorted(word):
+                                #print("word = ", word)
 
                 ## [2] 与えられた文字の一部しか入っていない単語も見つけられるプログラム
 
@@ -55,19 +65,17 @@ if __name__ == "__main__":
                         sub_set = set(sub_list) # setに代入して重複をとりのぞく
                         list_of_sets_of_substrings[i] = sub_set  # i 番目の配列要素を書き換える
 
-                max_point = 0
-                max_word = ""
-                for word in dic_list:
+                # max_point = 0
+                # max_word = ""
+                for (word, point, length) in dic_list:
                         if len(word) > len(str1): # 与えられた文字の文字数より辞書の単語の文字数が多かったら排除
                                 continue
                         if not ''.join(sorted(word)) in list_of_sets_of_substrings[len(word) - 1]: # 同じ文字数で比較する
                                 continue
                                         
-                        point = calc_point(word)
+                        print("*** best anagram ***")
                         print(word, " = ", point)
-                        if max_point < point:
-                                max_point = point
-                                max_word = word
-                print("best word = ", max_word, "best point = ", max_point)
+                        break
+
 
         print("bye")
